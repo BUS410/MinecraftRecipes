@@ -13,6 +13,10 @@ class ItemCategoryAdmin(admin.ModelAdmin):
 	prepopulated_fields = {'slug': ('name',)}
 
 
+class RecipeAdmin(admin.ModelAdmin):
+	list_display = ('result',)
+
+
 admin.site.register(models.Item, ItemAdmin)
 admin.site.register(models.ItemCategory, ItemCategoryAdmin)
-admin.site.register(models.Recipe)
+admin.site.register(models.Recipe, RecipeAdmin)

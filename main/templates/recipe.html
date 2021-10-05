@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+
+{% block content %}
+	<h1><img height="64px" src="{{ recipe.result.image.url }}"> {{ recipe.result.name }} <a href="{% url 'category' recipe.result.item_category.id %}">({{ recipe.result.item_category.name }})</a></h1>
+	<div class="container">
+		<div class="row">
+			<div class="col-1 bg-light" style="margin: 3px; padding: 2px; min-height: 64px;"><img width="64px" src="{{ recipe.left_up_item.image.url }}"></div>
+			<div class="col-1 bg-light" style="margin: 3px; padding: 2px; min-height: 64px;"><img width="64px" src="{{ recipe.up_item.image.url }}"></div>
+			<div class="col-1 bg-light" style="margin: 3px; padding: 2px; min-height: 64px;"><img width="64px" src="{{ recipe.right_up_item.image.url }}"></div>
+		</div>
+		<div class="row">
+			<div class="col-1 bg-light" style="margin: 3px; padding: 2px; min-height: 64px;"><img width="64px" src="{{ recipe.left_item.image.url }}"></div>
+			<div class="col-1 bg-light" style="margin: 3px; padding: 2px; min-height: 64px;"><img width="64px" src="{{ recipe.middle_item.image.url }}"></div>
+			<div class="col-1 bg-light" style="margin: 3px; padding: 2px; min-height: 64px;"><img width="64px" src="{{ recipe.right_item.image.url }}"></div>
+		</div>
+		<div class="row">
+			<div class="col-1 bg-light" style="margin: 3px; padding: 2px; min-height: 64px;"><img width="64px" src="{{ recipe.left_down_item.image.url }}"></div>
+			<div class="col-1 bg-light" style="margin: 3px; padding: 2px; min-height: 64px;"><img width="64px" src="{{ recipe.down_item.image.url }}"></div>
+			<div class="col-1 bg-light" style="margin: 3px; padding: 2px; min-height: 64px;"><img width="64px" src="{{ recipe.right_down_item.image.url }}"></div>
+		</div>
+	</div>
+
+{% endblock %}
