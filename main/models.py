@@ -1,12 +1,20 @@
 from django.db import models
+from django.utils.text import slugify
 
 # Create your models here.
 class Item(models.Model):
-	name = models.CharField(max_length=128, verbose_name='Имя предмета')
+	name = models.CharField(max_length=128, verbose_name='Имя предмета', unique=True)
 	image = models.ImageField(upload_to='items/', verbose_name='Изображение')
 	item_category = models.ForeignKey('ItemCategory', on_delete=models.PROTECT,
 		null=True, verbose_name='Категория')
+	slug = models.SlugField(max_length=256, null=False, unique=True, db_index=True,
+		verbose_name='URL')
 
+	def save(self, *args, **kwargs):
+		if not self.slug:
+			self.slug = slugify(self.name)
+		return super().save(*args, **kwargs)
+	
 	def __str__(self):
 		return self.name
 
@@ -15,7 +23,14 @@ class Item(models.Model):
 		verbose_name_plural = 'Предметы'
 
 class ItemCategory(models.Model):
-	name = models.CharField(max_length=128, verbose_name='Имя предмета')
+	name = models.CharField(max_length=128, verbose_name='Имя категории', unique=True)
+	slug = models.SlugField(max_length=256, null=False, unique=True, db_index=True,
+		verbose_name='URL')
+
+	def save(self, *args, **kwargs):
+		if not self.slug:
+			self.slug = slugify(self.name)
+		return super().save(*args, **kwargs)
 
 	def __str__(self):
 		return self.name
@@ -45,6 +60,13 @@ class Recipe(models.Model):
 		blank=True, verbose_name='Нижний предмет', related_name='down_items')
 	right_down_item = models.ForeignKey('Item', on_delete=models.CASCADE, null=True,
 		blank=True,verbose_name='Правый нижний предмет', related_name='right_down_items')
+	slug = models.SlugField(max_length=256, null=False, unique=True,db_index=True,
+		verbose_name='URL')
+
+	def save(self, *args, **kwargs):
+		if not self.slug:
+			self.slug = slugify(f'{self.result.name}-recipe')
+		return super().save(*args, **kwargs)
 
 	def __str__(self):
 		return f'{self.result.name} рецепт'
